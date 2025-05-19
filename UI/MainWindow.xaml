@@ -27,15 +27,10 @@
                      Rows="8"
                      Columns="8"
                      RenderOptions.BitmapScalingMode="HighQuality">
-             <!--<Image Source="Assets/KingW.png" />-->
-        </UniformGrid>    
-            
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>-->
+             </UniformGrid>
 
-    </Grid>
+            <ContentControl x:Name="MenuContainer"/>
+        </Grid>
     </Viewbox>
     
 </Window>
