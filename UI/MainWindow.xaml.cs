@@ -91,12 +91,15 @@ namespace UI
             IEnumerable<Move> moves = gameState.LegalMovesForPiece(pos);
             if (moves.Any())
             {
-                selectedPos = pos; CacheMoves(moves); ShowHighlights();
+                selectedPos = pos; 
+                CacheMoves(moves); 
+                ShowHighlights();
             }
         }
         private void OnToPositionSelected(Position pos)
         {
-            selectedPos = null; HideHighlights();
+            selectedPos = null; 
+            HideHighlights();
             if (moveCache.TryGetValue(pos, out Move move))
             {
                 HandleMove(move);
@@ -121,7 +124,7 @@ namespace UI
 
         private void ShowHighlights()
         {
-            Color color = Color.FromArgb(150, 125, 255, 125);
+            Color color = Color.FromArgb(150, 129, 221, 252); // green: 125, 255, 125
             foreach (Position to in moveCache.Keys)
             {
                 highlights[to.Row, to.Column].Fill = new SolidColorBrush(color);
