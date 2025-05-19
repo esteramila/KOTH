@@ -38,5 +38,14 @@ namespace Logic
         {
             return dirs.SelectMany(dir => MovePositionsInDir(from, board, dir));
         }
+
+        public virtual bool CanCaptureOpponentKing(Position from, Board board) // to detect check
+        {
+            return GetMoves(from, board).Any(move =>
+            {
+                Piece piece = board[move.ToPos];
+                return piece != null && piece.Type == PieceType.King; // GetMoves() will not generate a move that catures a piece of the same color
+            });
+        }
     }
 }
