@@ -44,6 +44,13 @@
 
         private void CheckForGameOver()
         {
+            // KOTH
+            if (Board.IsKingOnHill(CurrentPlayer))
+            {
+                Result = Result.KingOfTheHill(CurrentPlayer.Opponent());
+            }
+
+            // Checkmate & Stalemate
             if (!AllLegalMovesFor(CurrentPlayer).Any())
             {
                 if (Board.IsInCheck(CurrentPlayer))

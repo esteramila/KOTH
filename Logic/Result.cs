@@ -20,5 +20,10 @@
         {
             return new Result(Player.None, reason);
         }
+
+        public static Result KingOfTheHill(Player winner)
+        {
+            return new Result(winner, EndReason.KingOfTheHill);
+        }
     }
 }

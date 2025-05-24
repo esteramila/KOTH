@@ -1,11 +1,4 @@
-﻿using Logic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Logic
+﻿namespace Logic
 {
     public class Board
     {
@@ -16,6 +9,14 @@ namespace Logic
         {
             { Player.White, null },
             {Player.Black, null }
+        };
+
+        private static readonly HashSet<Position> CenterSquares = new HashSet<Position>
+        {
+            new Position(3, 3), 
+            new Position(3, 4),
+            new Position(4, 3), 
+            new Position(4, 4)
         };
 
         public Piece this[int row, int col]
@@ -112,6 +113,15 @@ namespace Logic
             {
                 Piece piece = this[pos];
                 return piece.CanCaptureOpponentKing(pos, this);
+            });
+        }
+
+        public bool IsKingOnHill(Player player)
+        {
+            return PiecePositionsFor(player.Opponent()).Any(pos =>
+            {
+                Piece piece = this[pos];
+                return piece is King && CenterSquares.Contains(pos);
             });
         }
 

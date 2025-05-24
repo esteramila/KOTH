@@ -53,6 +53,8 @@ namespace UI
                     return $"stalemate - {PlayerString(currentPlayer)} can't move";
                 case EndReason.Checkmate:
                     return $"checkmate - {PlayerString(currentPlayer)} can't move";
+                case EndReason.KingOfTheHill:
+                    return $"{PlayerString(currentPlayer.Opponent())} is king of the hill";
                 // InsufficientMaterial, ThreefoldRepetition, FiftyMoveRule
                 default:
                     return "";
