@@ -18,11 +18,15 @@ namespace UI
 
         private GameState gameState;
         private Position selectedPos = null;
+
+        private GameMode currentGameMode = GameMode.LocalMultiplayer;
+
         public MainWindow()
         {
             InitializeComponent();
             InitializeBoard();
 
+            currentGameMode = GameMode.LocalMultiplayer;
             gameState = new GameState(Player.White, Board.Initial());
             DrawBoard(gameState.Board);
             SetCursor(gameState.CurrentPlayer);
@@ -136,7 +140,19 @@ namespace UI
             if(gameState.IsGameOver())
             {
                 ShowGameOver();
+                return; // I need this, without it, the AI would try to move, but it can't so I get an exception
             }
+
+            // If it's AI's turn in PvAI mode
+            if (currentGameMode == GameMode.PlayerVsAI && gameState.CurrentPlayer == Player.Black)
+            {
+                MakeAIMove();
+            }
+        }
+
+        private void HandleNetworkMove(Move move)
+        {
+            // Send move over the network
         }
 
         private void CacheMoves(IEnumerable<Move> moves)
@@ -233,5 +249,39 @@ namespace UI
                 }
             };
         }
+
+        private void P1vP2_Click(object sender, RoutedEventArgs e)
+        {
+            currentGameMode = GameMode.LocalMultiplayer;
+            RestartGame();
+        }
+
+        private void PvPC_Click(object sender, RoutedEventArgs e)
+        {
+            currentGameMode = GameMode.PlayerVsAI;
+            RestartGame();
+
+            // If AI is black and it's its turn, let it move immediately
+            if (gameState.CurrentPlayer == Player.Black)
+            {
+                MakeAIMove();
+            }
+        }
+
+        private void PC1vPC2_Click(object sender, RoutedEventArgs e)
+        {
+            currentGameMode = GameMode.Networked;
+            RestartGame();
+
+            // Add logic to initialize network handling
+        }
+
+        // temporary simple AI method implementation
+        private void MakeAIMove()
+        {
+            var aiMove = AI.GetBestMove(gameState); // Assuming you have an AI class in Logic
+            HandleMove(aiMove);
+        }
+
     }
 }

@@ -10,28 +10,78 @@
         WindowStartupLocation="CenterScreen"
         Background="#101010"
         KeyDown="Window_KeyDown">
-    <Viewbox>
-        <Grid x:Name="BoardGrid"
-              Width="600"
-              Height="600"
-              MouseDown="BoardGrid_MouseDown">
-        <Grid.Background>
-            <ImageBrush ImageSource="Assets/Board.png" />
-        </Grid.Background>
+    <Window.Resources>
+        <!-- Menu style using FillColor and TextColor -->
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+        </Style>
 
-            <UniformGrid x:Name="HighlightGrid"
-                         Rows="8"
-                         Columns="8">
-            </UniformGrid>
+        <!-- MenuItem style using your custom brushes -->
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+            <Setter Property="Background" Value="{StaticResource FillColor}"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="6,2"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="2"
+                            Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonColor}"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsSubmenuOpen" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource StrokeColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" >
+            <MenuItem Header="P1 vs P2" Click="P1vP2_Click"/>
+            <MenuItem Header="P vs PC" Click="PvPC_Click"/>
+            <MenuItem Header="PC1 vs PC2" Click="PC1vPC2_Click"/>
+        </Menu>
+        <Viewbox>
+            <Grid x:Name="BoardGrid"
+                  Width="600"
+                  Height="600"
+                  MouseDown="BoardGrid_MouseDown">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Assets/Board.png" />
+                </Grid.Background>
+
+                <UniformGrid x:Name="HighlightGrid"
+                             Rows="8"
+                             Columns="8">
+                </UniformGrid>
             
-        <UniformGrid x:Name="PieceGrid"
-                     Rows="8"
-                     Columns="8"
-                     RenderOptions.BitmapScalingMode="HighQuality">
-             </UniformGrid>
+                <UniformGrid x:Name="PieceGrid"
+                             Rows="8"
+                             Columns="8"
+                             RenderOptions.BitmapScalingMode="HighQuality">
+                 </UniformGrid>
 
-            <ContentControl x:Name="MenuContainer"/>
-        </Grid>
-    </Viewbox>
-    
+                <ContentControl x:Name="MenuContainer"/>
+            </Grid>
+        </Viewbox>
+    </DockPanel>
 </Window>
