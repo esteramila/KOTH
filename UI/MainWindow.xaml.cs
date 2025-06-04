@@ -279,9 +279,8 @@ namespace UI
         // temporary simple AI method implementation
         private void MakeAIMove()
         {
-            var aiMove = AI.GetBestMove(gameState); // Assuming you have an AI class in Logic
+            Move aiMove = AI.GetBestMove(gameState);
             HandleMove(aiMove);
         }
-
     }
 }
